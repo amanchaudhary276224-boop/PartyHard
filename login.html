@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | PartyHard – Plan Your Themed Birthday Party</title>
+<meta name="description" content="Sign in or create your free PartyHard account to plan a themed birthday party in Delhi NCR.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.partyhard.in/login.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+
+<!-- Google Analytics 4: replace G-XXXXXXXXXX (2 places) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+  :root{--bg:#0e0b16;--card:#1a1526;--ink:#f5f1ff;--muted:#b8afd0;--pink:#ff3d81;--yellow:#ffd23f;--violet:#8a5cff;--line:#2c2440}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:24px;
+       background-image:radial-gradient(circle at 20% 20%,rgba(255,61,129,.25),transparent 40%),radial-gradient(circle at 80% 80%,rgba(138,92,255,.25),transparent 45%)}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:40px;width:100%;max-width:420px}
+  .logo{font-weight:900;font-size:1.7rem;display:block;text-align:center;margin-bottom:6px;color:var(--ink);text-decoration:none}
+  .logo span{color:var(--pink)}
+  .muted{color:var(--muted);text-align:center;margin-bottom:26px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border-radius:999px;padding:5px;margin-bottom:24px}
+  .tabs button{border:none;background:none;color:var(--muted);padding:10px;border-radius:999px;font-weight:700;cursor:pointer;font-size:1rem}
+  .tabs button.on{background:var(--pink);color:#fff}
+  form{display:grid;gap:12px}
+  input,select{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1rem;font-family:inherit}
+  .btn{padding:14px;border-radius:999px;border:none;background:var(--pink);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;margin-top:6px}
+  .hidden{display:none}
+  #dash h2{margin-bottom:6px}
+  #dash .chips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+  #dash .chip{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;cursor:pointer;font-weight:600}
+  #dash .chip.sel{border-color:var(--pink);background:rgba(255,61,129,.12)}
+  #msg{margin-top:14px;color:var(--yellow);text-align:center;font-weight:600}
+  a.back{display:block;text-align:center;margin-top:20px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="box">
+  <a href="/" class="logo">Party<span>Hard</span> 🎉</a>
+
+  <div id="auth">
+    <p class="muted">Sign in to start planning the party</p>
+    <div class="tabs">
+      <button id="tIn" class="on" type="button">Sign In</button>
+      <button id="tUp" type="button">Sign Up</button>
+    </div>
+    <form id="fIn">
+      <input type="email" id="inEmail" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button class="btn" type="submit">Sign In</button>
+    </form>
+    <form id="fUp" class="hidden">
+      <input type="text" id="upName" placeholder="Full name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone number" required>
+      <input type="password" placeholder="Create password" required>
+      <button class="btn" type="submit">Create Account</button>
+    </form>
+  </div>
+
+  <div id="dash" class="hidden">
+    <h2>Hey <span id="who"></span> 👋</h2>
+    <p class="muted" style="text-align:left;margin:0">Whose birthday are we celebrating? Pick a theme:</p>
+    <div class="chips">
+      <div class="chip">🚐 Fake Kidnapping</div><div class="chip">🎃 Halloween</div>
+      <div class="chip">🕵️ Murder Mystery</div><div class="chip">💃 Bollywood</div>
+      <div class="chip">🎰 Casino Royale</div><div class="chip">🕺 Retro 90s</div>
+      <div class="chip">🧟 Zombie</div><div class="chip">🌙 Midnight Surprise</div>
+    </div>
+    <form id="fPlan">
+      <input type="text" placeholder="Birthday person's name" required>
+      <input type="date" required>
+      <select required><option value="">Guests</option><option>Up to 10</option><option>10–30</option><option>30–60</option></select>
+      <button class="btn" type="submit">Request Party Plan 🎉</button>
+    </form>
+    <p id="msg"></p>
+  </div>
+
+  <a class="back" href="/">← Back to home</a>
+</div>
+
+<script>
+  var tIn=document.getElementById('tIn'), tUp=document.getElementById('tUp'),
+      fIn=document.getElementById('fIn'), fUp=document.getElementById('fUp');
+  tIn.onclick=function(){tIn.classList.add('on');tUp.classList.remove('on');fIn.classList.remove('hidden');fUp.classList.add('hidden');};
+  tUp.onclick=function(){tUp.classList.add('on');tIn.classList.remove('on');fUp.classList.remove('hidden');fIn.classList.add('hidden');};
+
+  function enter(name, method){
+    document.getElementById('auth').classList.add('hidden');
+    document.getElementById('dash').classList.remove('hidden');
+    document.getElementById('who').textContent=name;
+    if (typeof gtag==='function') gtag('event', method==='signup'?'sign_up':'login', {method:'email'});
+  }
+  fIn.onsubmit=function(e){e.preventDefault();enter(document.getElementById('inEmail').value.split('@')[0],'login');};
+  fUp.onsubmit=function(e){e.preventDefault();enter(document.getElementById('upName').value.split(' ')[0],'signup');};
+
+  var picked='';
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.onclick=function(){document.querySelectorAll('.chip').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');picked=c.textContent;};
+  });
+  document.getElementById('fPlan').onsubmit=function(e){
+    e.preventDefault();
+    if(!picked){document.getElementById('msg').textContent='Please pick a theme first 👆';return;}
+    if (typeof gtag==='function') gtag('event','generate_lead',{party_theme:picked});
+    document.getElementById('msg').textContent='🎉 Request received for '+picked+'! Our team will call you shortly.';
+    this.reset();
+  };
+</script>
+</body>
+</html>
