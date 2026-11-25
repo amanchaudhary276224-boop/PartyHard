@@ -59,8 +59,8 @@
     </form>
     <form id="fUp" class="hidden">
       <input type="text" id="upName" placeholder="Full name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="tel" placeholder="Phone number" required>
+      <input type="email" id="upEmail" placeholder="Email" required>
+      <input type="tel" id="upPhone" placeholder="Phone number" required>
       <input type="password" placeholder="Create password" required>
       <button class="btn" type="submit">Create Account</button>
     </form>
@@ -76,9 +76,9 @@
       <div class="chip">🧟 Zombie</div><div class="chip">🌙 Midnight Surprise</div>
     </div>
     <form id="fPlan">
-      <input type="text" placeholder="Birthday person's name" required>
-      <input type="date" required>
-      <select required><option value="">Guests</option><option>Up to 10</option><option>10–30</option><option>30–60</option></select>
+      <input type="text" id="bName" placeholder="Birthday person's name" required>
+      <input type="date" id="bDate" required>
+      <select id="bGuests" required><option value="">Guests</option><option>Up to 10</option><option>10–30</option><option>30–60</option></select>
       <button class="btn" type="submit">Request Party Plan 🎉</button>
     </form>
     <p id="msg"></p>
@@ -88,6 +88,17 @@
 </div>
 
 <script>
+  // ===== Email notifications via FormSubmit (sends details to the owner's inbox) =====
+  var OWNER_EMAIL = 'carpediem591638@gmail.com';
+  function sendLead(subject, data){
+    data._subject = subject; data._template = 'table'; data._captcha = 'false';
+    fetch('https://formsubmit.co/ajax/' + OWNER_EMAIL, {
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(data)
+    }).catch(function(){});
+  }
+
+  var userInfo={};
   var tIn=document.getElementById('tIn'), tUp=document.getElementById('tUp'),
       fIn=document.getElementById('fIn'), fUp=document.getElementById('fUp');
   tIn.onclick=function(){tIn.classList.add('on');tUp.classList.remove('on');fIn.classList.remove('hidden');fUp.classList.add('hidden');};
@@ -99,8 +110,8 @@
     document.getElementById('who').textContent=name;
     if (typeof gtag==='function') gtag('event', method==='signup'?'sign_up':'login', {method:'email'});
   }
-  fIn.onsubmit=function(e){e.preventDefault();enter(document.getElementById('inEmail').value.split('@')[0],'login');};
-  fUp.onsubmit=function(e){e.preventDefault();enter(document.getElementById('upName').value.split(' ')[0],'signup');};
+  fIn.onsubmit=function(e){e.preventDefault();userInfo={Email:document.getElementById('inEmail').value};sendLead('PartyHard: User signed in',{Event:'Sign in',Email:userInfo.Email});enter(document.getElementById('inEmail').value.split('@')[0],'login');};
+  fUp.onsubmit=function(e){e.preventDefault();userInfo={Name:document.getElementById('upName').value,Email:document.getElementById('upEmail').value,Phone:document.getElementById('upPhone').value};sendLead('🎉 New PartyHard sign-up: '+userInfo.Name,{Event:'New sign-up',Name:userInfo.Name,Email:userInfo.Email,Phone:userInfo.Phone});enter(document.getElementById('upName').value.split(' ')[0],'signup');};
 
   var picked='';
   document.querySelectorAll('.chip').forEach(function(c){
@@ -110,6 +121,7 @@
     e.preventDefault();
     if(!picked){document.getElementById('msg').textContent='Please pick a theme first 👆';return;}
     if (typeof gtag==='function') gtag('event','generate_lead',{party_theme:picked});
+    sendLead('🎂 New party request: '+picked,{Event:'Party plan request',Customer:userInfo.Name||'',Email:userInfo.Email||'',Phone:userInfo.Phone||'',Theme:picked,'Birthday person':document.getElementById('bName').value,'Party date':document.getElementById('bDate').value,Guests:document.getElementById('bGuests').value});
     document.getElementById('msg').textContent='🎉 Request received for '+picked+'! Our team will call you shortly.';
     this.reset();
   };

@@ -328,8 +328,8 @@
           <p>Tell us who's celebrating and we'll call you back within 2 hours with a custom plan.</p>
         </div>
         <form id="bookForm">
-          <input type="text" placeholder="Your name" required aria-label="Your name">
-          <input type="tel" placeholder="Phone number" required aria-label="Phone number">
+          <input type="text" id="fName" placeholder="Your name" required aria-label="Your name">
+          <input type="tel" id="fPhone" placeholder="Phone number" required aria-label="Phone number">
           <select required aria-label="Party theme">
             <option value="">Choose a theme</option>
             <option>Fake Kidnapping Surprise</option><option>Halloween Birthday</option>
@@ -337,7 +337,7 @@
             <option>Casino Royale</option><option>Retro 90s Throwback</option>
             <option>Zombie Apocalypse</option><option>Midnight Doorstep Surprise</option>
           </select>
-          <input type="date" required aria-label="Party date">
+          <input type="date" id="fDate" required aria-label="Party date">
           <button class="btn" type="submit">Get My Party Plan →</button>
           <div id="thanks">🎉 Thanks! Our party team will call you shortly.</div>
         </form>
@@ -358,10 +358,21 @@
 </footer>
 
 <script>
+  // ===== Email notifications via FormSubmit (sends details to the owner's inbox) =====
+  var OWNER_EMAIL = 'carpediem591638@gmail.com';
+  function sendLead(subject, data){
+    data._subject = subject; data._template = 'table'; data._captcha = 'false';
+    fetch('https://formsubmit.co/ajax/' + OWNER_EMAIL, {
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(data)
+    }).catch(function(){});
+  }
+
   document.getElementById('bookForm').addEventListener('submit', function(e){
     e.preventDefault();
     var theme = this.querySelector('select').value;
     if (typeof gtag === 'function') gtag('event', 'generate_lead', { party_theme: theme });
+    sendLead('📞 New PartyHard booking enquiry: '+theme,{Event:'Homepage booking form',Name:document.getElementById('fName').value,Phone:document.getElementById('fPhone').value,Theme:theme,'Party date':document.getElementById('fDate').value});
     document.getElementById('thanks').style.display = 'block';
     this.reset();
   });
