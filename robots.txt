@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /login.html
 
-Sitemap: https://www.partyhard.in/sitemap.xml
+Sitemap: https://www.partyhard.space/sitemap.xml
